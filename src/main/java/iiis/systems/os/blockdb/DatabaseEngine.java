@@ -36,6 +36,7 @@ public class DatabaseEngine {
 
     public boolean put(String userId, int value) {
         logLength++;
+        System.out.println("logLength" + logLength);
         balances.put(userId, value);
         return true;
     }
