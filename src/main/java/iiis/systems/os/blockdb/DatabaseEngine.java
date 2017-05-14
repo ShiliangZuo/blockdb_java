@@ -30,7 +30,7 @@ public class DatabaseEngine {
     }
 
     public int get(String userId) {
-        logLength++;
+        //logLength++;
         return getOrZero(userId);
     }
 
@@ -51,6 +51,9 @@ public class DatabaseEngine {
     public boolean withdraw(String userId, int value) {
         logLength++;
         int balance = getOrZero(userId);
+        if (value > balance) {
+            return false;
+        }
         balances.put(userId, balance - value);
         return true;
     }
@@ -59,6 +62,9 @@ public class DatabaseEngine {
         logLength++;
         int fromBalance = getOrZero(fromId);
         int toBalance = getOrZero(toId);
+        if (value > fromBalance) {
+            return false;
+        }
         balances.put(fromId, fromBalance - value);
         balances.put(toId, toBalance + value);
         return true;
