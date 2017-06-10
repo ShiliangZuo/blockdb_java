@@ -49,7 +49,7 @@ public class BlockDatabaseServer {
         DatabaseEngine.setup(dataDir);
 
         final BlockDatabaseServer server = new BlockDatabaseServer();
-        System.out.println("server is about to start!");
+        System.out.println("Server about to start!");
         server.start(address, port);
         server.blockUntilShutdown();
     }
@@ -67,7 +67,6 @@ public class BlockDatabaseServer {
 
         @Override
         public void put(Request request, StreamObserver<BooleanResponse> responseObserver) {
-            //System.out.println("Put");
             boolean success = dbEngine.put(request.getUserID(), request.getValue());
             BooleanResponse response = BooleanResponse.newBuilder().setSuccess(success).build();
             responseObserver.onNext(response);

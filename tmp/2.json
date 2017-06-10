@@ -1,0 +1,14 @@
+{
+  "BlockID": 2,
+  "PrevHash": "00000000",
+  "Transactions": [{
+    "Type": "PUT",
+    "UserID": "00000000",
+    "Value": 20
+  }, {
+    "Type": "PUT",
+    "UserID": "00000000",
+    "Value": 200
+  }],
+  "Nonce": "00000000"
+}

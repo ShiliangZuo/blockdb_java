@@ -32,6 +32,7 @@ iiis/systems/os/blockdb/BlockOrBuilder.class
 iiis/systems/os/blockdb/BooleanResponse$1.class
 iiis/systems/os/blockdb/BooleanResponse.class
 iiis/systems/os/blockdb/TransferRequest$1.class
+iiis/systems/os/blockdb/DatabaseEngine$1.class
 iiis/systems/os/blockdb/BlockDatabaseGrpc$MethodHandlers.class
 iiis/systems/os/blockdb/BlockDatabaseServer$1.class
 iiis/systems/os/blockdb/DatabaseEngine.class
