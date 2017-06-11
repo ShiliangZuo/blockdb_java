@@ -130,11 +130,15 @@ public class DatabaseEngine {
     }
 
     private int getOrZero(String userId) {
-        if (balances.containsKey(userId)) {
+        /*if (balances.containsKey(userId)) {
             return balances.get(userId);
         } else {
-            return 0;
+            balances.put(userId, 1000);
+        }*/
+        if (balances.containsKey(userId) == false) {
+            balances.put(userId, 1000);
         }
+        return balances.get(userId);
     }
 
     public int get(String userId) {
@@ -150,7 +154,7 @@ public class DatabaseEngine {
         return 0;
     }
 
-    public boolean put(String userId, int value) {
+    /*public boolean put(String userId, int value) {
         try {
             semaphore.acquire();
             if (pattern.matcher(userId).matches() && value >= 0) {
@@ -204,17 +208,19 @@ public class DatabaseEngine {
         }
         return false;
     }
+    */
 
-    public boolean transfer(String fromId, String toId, int value) {
+    public boolean transfer(Transaction.Types type, String fromId, String toId, int value, int fee) {
         try {
             semaphore.acquire();
-            if (pattern.matcher(fromId).matches() && pattern.matcher(toId).matches() && !fromId.equals(toId) && value >= 0) {
+            if (type == Transaction.Types.TRANSFER && pattern.matcher(fromId).matches()
+                    && pattern.matcher(toId).matches() && !fromId.equals(toId) && value >= 0) {
                 int fromBalance = getOrZero(fromId);
-                if (value <= fromBalance) {
+                if (value <= fromBalance && value >= fee) {
                     writeTransactionLog(Transaction.newBuilder().setType(Transaction.Types.TRANSFER).setFromID(fromId).setToID(toId).setValue(value).build());
                     int toBalance = getOrZero(toId);
                     balances.put(fromId, fromBalance - value);
-                    balances.put(toId, toBalance + value);
+                    balances.put(toId, toBalance + value - fee);
                     semaphore.release();
                     return true;
                 }
@@ -310,7 +316,7 @@ public class DatabaseEngine {
     }
 
     private boolean restoreThisTransaction(Transaction thisTransaction) {
-        String userId = thisTransaction.getUserID();
+        //String userId = thisTransaction.getUserID();
         String fromId = thisTransaction.getFromID();
         String toId = thisTransaction.getToID();
         int value = thisTransaction.getValue();
@@ -318,6 +324,7 @@ public class DatabaseEngine {
         int balance;
 
         switch (type) {
+            /*
             case PUT:
                 balances.put(userId, value);
                 break;
@@ -331,6 +338,7 @@ public class DatabaseEngine {
                     balances.put(userId, balance - value);
                 }
                 break;
+            */
             case TRANSFER:
                 int fromBalance = getOrZero(fromId);
                 if (value <= fromBalance) {
