@@ -54,7 +54,7 @@ public class BlockDatabaseServer {
         server.blockUntilShutdown();
     }
 
-    static class BlockDatabaseImpl extends BlockDatabaseGrpc.BlockDatabaseImplBase {
+    static class BlockDatabaseImpl extends BlockChainMinerGrpc.BlockChainMinerImplBase {
         private final DatabaseEngine dbEngine = DatabaseEngine.getInstance();
 
         @Override
@@ -66,6 +66,15 @@ public class BlockDatabaseServer {
         }
 
         @Override
+        public void transfer(Transaction request, StreamObserver<BooleanResponse> responseObserver) {
+            boolean success = dbEngine.transfer(request.getType(), request.getFromID(),
+                    request.getToID(), request.getValue(), request.getMiningFee());
+            BooleanResponse response = BooleanResponse.newBuilder().setSuccess(success).build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
+        /*@Override
         public void put(Request request, StreamObserver<BooleanResponse> responseObserver) {
             boolean success = dbEngine.put(request.getUserID(), request.getValue());
             BooleanResponse response = BooleanResponse.newBuilder().setSuccess(success).build();
@@ -87,8 +96,9 @@ public class BlockDatabaseServer {
             BooleanResponse response = BooleanResponse.newBuilder().setSuccess(success).build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
-        }
+        }*/
 
+        /*
         @Override
         public void transfer(TransferRequest request, StreamObserver<BooleanResponse> responseObserver) {
             boolean success = dbEngine.transfer(request.getFromID(), request.getToID(), request.getValue());
@@ -104,5 +114,7 @@ public class BlockDatabaseServer {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+        */
+
     }
 }
