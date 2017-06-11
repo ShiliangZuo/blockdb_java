@@ -217,7 +217,9 @@ public class DatabaseEngine {
                     && pattern.matcher(toId).matches() && !fromId.equals(toId) && value >= 0) {
                 int fromBalance = getOrZero(fromId);
                 if (value <= fromBalance && value >= fee) {
-                    writeTransactionLog(Transaction.newBuilder().setType(Transaction.Types.TRANSFER).setFromID(fromId).setToID(toId).setValue(value).build());
+                    writeTransactionLog(Transaction.newBuilder().
+                            setType(Transaction.Types.TRANSFER).setFromID(fromId).
+                            setToID(toId).setValue(value).setMiningFee(fee).build());
                     int toBalance = getOrZero(toId);
                     balances.put(fromId, fromBalance - value);
                     balances.put(toId, toBalance + value - fee);
@@ -321,7 +323,7 @@ public class DatabaseEngine {
         String toId = thisTransaction.getToID();
         int value = thisTransaction.getValue();
         Transaction.Types type = thisTransaction.getType();
-        int balance;
+        int fee = thisTransaction.getMiningFee();
 
         switch (type) {
             /*
@@ -344,7 +346,7 @@ public class DatabaseEngine {
                 if (value <= fromBalance) {
                     int toBalance = getOrZero(toId);
                     balances.put(fromId, fromBalance - value);
-                    balances.put(toId, toBalance + value);
+                    balances.put(toId, toBalance + value - fee);
                 }
                 break;
             default:
