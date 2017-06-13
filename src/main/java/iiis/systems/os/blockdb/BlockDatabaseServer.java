@@ -53,8 +53,6 @@ public class BlockDatabaseServer {
         config = Util.readJsonFile("config.json");
         nServers = config.getInt("nservers");
 
-
-
         JSONObject thisServer = (JSONObject)config.get(serverId);
         String address = thisServer.getString("ip");
         int port = Integer.parseInt(thisServer.getString("port"));
@@ -124,6 +122,15 @@ public class BlockDatabaseServer {
         public void pushTransaction(Transaction request,
                                     StreamObserver<Null> responseObserver) {
             dbEngine.receive(request);
+            Null response = Null.newBuilder().build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
+        @Override
+        public void pushBlock(JsonBlockString block, StreamObserver<Null> responseObserver) {
+            dbEngine.receiveBlock(block);
             Null response = Null.newBuilder().build();
 
             responseObserver.onNext(response);
