@@ -30,7 +30,9 @@ public class DatabaseEngine {
     private HashSet<String> records = new HashSet<>();
     private LinkedList<Transaction> transactionList = new LinkedList<>();
 
+
     private int blockId = 0;
+
     final int N = 2/*50*/;
 
     final int userIdLength = 8;
@@ -197,6 +199,10 @@ public class DatabaseEngine {
     public void receive(Transaction request) {
         transfer(request);
     }
+  
+    public void receiveBlock(JsonBlockString block) {
+
+    }
 
     public int getLogLength() {
         return (int)logLength;
@@ -342,4 +348,5 @@ public class DatabaseEngine {
             mined = false;
         }
     }
+
 }
