@@ -30,19 +30,26 @@ public class DatabaseEngine {
     private HashSet<String> records = new HashSet<>();
     private LinkedList<Transaction> transactionList = new LinkedList<>();
 
-    private long blockId = 1;
+
+    private int blockId = 0;
+
     final int N = 2/*50*/;
 
     final int userIdLength = 8;
     final String template = "[a-z0-9|-]{" + userIdLength + "}";
     Pattern pattern = Pattern.compile(template, Pattern.CASE_INSENSITIVE);
 
-    Block.Builder blockBuilder = Block.newBuilder();
+    Block.Builder blockBuilder = Block.newBuilder().setBlockID(blockId);
     String serverLogInfoPath;
     org.json.simple.JSONObject serverInfoJson;
     private String tmpJsonPath;
 
     private Semaphore semaphore = new Semaphore(1);
+
+    //private String nonce, recentHash;
+    private Boolean mined = false;
+    private TreeNode<Block> recentNode = new TreeNode(blockBuilder.build());
+    //private HashMap<String, TreeNode<Block>> blockHashMap = new HashMap<>();
 
     DatabaseEngine(String dataDir) {
         this.dataDir = dataDir;
@@ -95,7 +102,6 @@ public class DatabaseEngine {
 
             /*String name = (String) jsonObject.get("name");
             System.out.println(name);
-
             long age = (Long) jsonObject.get("age");
             System.out.println(age);*/
 
@@ -193,7 +199,7 @@ public class DatabaseEngine {
     public void receive(Transaction request) {
         transfer(request);
     }
-
+  
     public void receiveBlock(JsonBlockString block) {
 
     }
@@ -328,6 +334,18 @@ public class DatabaseEngine {
         catch (IOException e)
         {
             System.out.println(e);
+        }
+    }
+
+    private void produceBlock() {
+        if(mined && !transactionList.isEmpty())
+        {
+            blockBuilder.setBlockID(++blockId).setPrevHash(Hash.getHashString(recentNode.data.getNonce())/*recentHash*/).clearTransactions().setNonce(nonce);
+            Transaction transaction;
+            while((transaction = transactionList.poll())!=null)
+                blockBuilder.addTransactions(transaction);
+            recentNode = recentNode.addChild(blockBuilder.build());
+            mined = false;
         }
     }
 

@@ -4,19 +4,18 @@
 package iiis.systems.os.blockdb;
 
 /**
- * Protobuf type {@code blockdb.Request}
+ * Protobuf type {@code blockdb.GetBlockRequest}
  */
-public  final class Request extends
+public  final class GetBlockRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:blockdb.Request)
-    RequestOrBuilder {
-  // Use Request.newBuilder() to construct.
-  private Request(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:blockdb.GetBlockRequest)
+    GetBlockRequestOrBuilder {
+  // Use GetBlockRequest.newBuilder() to construct.
+  private GetBlockRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private Request() {
-    userID_ = "";
-    value_ = 0;
+  private GetBlockRequest() {
+    blockHash_ = "";
   }
 
   @java.lang.Override
@@ -24,7 +23,7 @@ public  final class Request extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private Request(
+  private GetBlockRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -47,12 +46,7 @@ public  final class Request extends
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            userID_ = s;
-            break;
-          }
-          case 16: {
-
-            value_ = input.readInt32();
+            blockHash_ = s;
             break;
           }
         }
@@ -68,57 +62,48 @@ public  final class Request extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_Request_descriptor;
+    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_GetBlockRequest_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_Request_fieldAccessorTable
+    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_GetBlockRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            iiis.systems.os.blockdb.Request.class, iiis.systems.os.blockdb.Request.Builder.class);
+            iiis.systems.os.blockdb.GetBlockRequest.class, iiis.systems.os.blockdb.GetBlockRequest.Builder.class);
   }
 
-  public static final int USERID_FIELD_NUMBER = 1;
-  private volatile java.lang.Object userID_;
+  public static final int BLOCKHASH_FIELD_NUMBER = 1;
+  private volatile java.lang.Object blockHash_;
   /**
-   * <code>string UserID = 1;</code>
+   * <code>string BlockHash = 1;</code>
    */
-  public java.lang.String getUserID() {
-    java.lang.Object ref = userID_;
+  public java.lang.String getBlockHash() {
+    java.lang.Object ref = blockHash_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      userID_ = s;
+      blockHash_ = s;
       return s;
     }
   }
   /**
-   * <code>string UserID = 1;</code>
+   * <code>string BlockHash = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getUserIDBytes() {
-    java.lang.Object ref = userID_;
+      getBlockHashBytes() {
+    java.lang.Object ref = blockHash_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      userID_ = b;
+      blockHash_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
-  }
-
-  public static final int VALUE_FIELD_NUMBER = 2;
-  private int value_;
-  /**
-   * <code>int32 Value = 2;</code>
-   */
-  public int getValue() {
-    return value_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -133,11 +118,8 @@ public  final class Request extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getUserIDBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, userID_);
-    }
-    if (value_ != 0) {
-      output.writeInt32(2, value_);
+    if (!getBlockHashBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, blockHash_);
     }
   }
 
@@ -146,12 +128,8 @@ public  final class Request extends
     if (size != -1) return size;
 
     size = 0;
-    if (!getUserIDBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, userID_);
-    }
-    if (value_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, value_);
+    if (!getBlockHashBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, blockHash_);
     }
     memoizedSize = size;
     return size;
@@ -163,16 +141,14 @@ public  final class Request extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof iiis.systems.os.blockdb.Request)) {
+    if (!(obj instanceof iiis.systems.os.blockdb.GetBlockRequest)) {
       return super.equals(obj);
     }
-    iiis.systems.os.blockdb.Request other = (iiis.systems.os.blockdb.Request) obj;
+    iiis.systems.os.blockdb.GetBlockRequest other = (iiis.systems.os.blockdb.GetBlockRequest) obj;
 
     boolean result = true;
-    result = result && getUserID()
-        .equals(other.getUserID());
-    result = result && (getValue()
-        == other.getValue());
+    result = result && getBlockHash()
+        .equals(other.getBlockHash());
     return result;
   }
 
@@ -183,67 +159,65 @@ public  final class Request extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + USERID_FIELD_NUMBER;
-    hash = (53 * hash) + getUserID().hashCode();
-    hash = (37 * hash) + VALUE_FIELD_NUMBER;
-    hash = (53 * hash) + getValue();
+    hash = (37 * hash) + BLOCKHASH_FIELD_NUMBER;
+    hash = (53 * hash) + getBlockHash().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static iiis.systems.os.blockdb.Request parseFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(byte[] data)
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(java.io.InputStream input)
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.Request parseDelimitedFrom(java.io.InputStream input)
+  public static iiis.systems.os.blockdb.GetBlockRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static iiis.systems.os.blockdb.Request parseDelimitedFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static iiis.systems.os.blockdb.Request parseFrom(
+  public static iiis.systems.os.blockdb.GetBlockRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -255,7 +229,7 @@ public  final class Request extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(iiis.systems.os.blockdb.Request prototype) {
+  public static Builder newBuilder(iiis.systems.os.blockdb.GetBlockRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -270,25 +244,25 @@ public  final class Request extends
     return builder;
   }
   /**
-   * Protobuf type {@code blockdb.Request}
+   * Protobuf type {@code blockdb.GetBlockRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:blockdb.Request)
-      iiis.systems.os.blockdb.RequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:blockdb.GetBlockRequest)
+      iiis.systems.os.blockdb.GetBlockRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_Request_descriptor;
+      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_GetBlockRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_Request_fieldAccessorTable
+      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_GetBlockRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              iiis.systems.os.blockdb.Request.class, iiis.systems.os.blockdb.Request.Builder.class);
+              iiis.systems.os.blockdb.GetBlockRequest.class, iiis.systems.os.blockdb.GetBlockRequest.Builder.class);
     }
 
-    // Construct using iiis.systems.os.blockdb.Request.newBuilder()
+    // Construct using iiis.systems.os.blockdb.GetBlockRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -305,34 +279,31 @@ public  final class Request extends
     }
     public Builder clear() {
       super.clear();
-      userID_ = "";
-
-      value_ = 0;
+      blockHash_ = "";
 
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_Request_descriptor;
+      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_GetBlockRequest_descriptor;
     }
 
-    public iiis.systems.os.blockdb.Request getDefaultInstanceForType() {
-      return iiis.systems.os.blockdb.Request.getDefaultInstance();
+    public iiis.systems.os.blockdb.GetBlockRequest getDefaultInstanceForType() {
+      return iiis.systems.os.blockdb.GetBlockRequest.getDefaultInstance();
     }
 
-    public iiis.systems.os.blockdb.Request build() {
-      iiis.systems.os.blockdb.Request result = buildPartial();
+    public iiis.systems.os.blockdb.GetBlockRequest build() {
+      iiis.systems.os.blockdb.GetBlockRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public iiis.systems.os.blockdb.Request buildPartial() {
-      iiis.systems.os.blockdb.Request result = new iiis.systems.os.blockdb.Request(this);
-      result.userID_ = userID_;
-      result.value_ = value_;
+    public iiis.systems.os.blockdb.GetBlockRequest buildPartial() {
+      iiis.systems.os.blockdb.GetBlockRequest result = new iiis.systems.os.blockdb.GetBlockRequest(this);
+      result.blockHash_ = blockHash_;
       onBuilt();
       return result;
     }
@@ -364,22 +335,19 @@ public  final class Request extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof iiis.systems.os.blockdb.Request) {
-        return mergeFrom((iiis.systems.os.blockdb.Request)other);
+      if (other instanceof iiis.systems.os.blockdb.GetBlockRequest) {
+        return mergeFrom((iiis.systems.os.blockdb.GetBlockRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(iiis.systems.os.blockdb.Request other) {
-      if (other == iiis.systems.os.blockdb.Request.getDefaultInstance()) return this;
-      if (!other.getUserID().isEmpty()) {
-        userID_ = other.userID_;
+    public Builder mergeFrom(iiis.systems.os.blockdb.GetBlockRequest other) {
+      if (other == iiis.systems.os.blockdb.GetBlockRequest.getDefaultInstance()) return this;
+      if (!other.getBlockHash().isEmpty()) {
+        blockHash_ = other.blockHash_;
         onChanged();
-      }
-      if (other.getValue() != 0) {
-        setValue(other.getValue());
       }
       onChanged();
       return this;
@@ -393,11 +361,11 @@ public  final class Request extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      iiis.systems.os.blockdb.Request parsedMessage = null;
+      iiis.systems.os.blockdb.GetBlockRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (iiis.systems.os.blockdb.Request) e.getUnfinishedMessage();
+        parsedMessage = (iiis.systems.os.blockdb.GetBlockRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -407,97 +375,71 @@ public  final class Request extends
       return this;
     }
 
-    private java.lang.Object userID_ = "";
+    private java.lang.Object blockHash_ = "";
     /**
-     * <code>string UserID = 1;</code>
+     * <code>string BlockHash = 1;</code>
      */
-    public java.lang.String getUserID() {
-      java.lang.Object ref = userID_;
+    public java.lang.String getBlockHash() {
+      java.lang.Object ref = blockHash_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        userID_ = s;
+        blockHash_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string UserID = 1;</code>
+     * <code>string BlockHash = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getUserIDBytes() {
-      java.lang.Object ref = userID_;
+        getBlockHashBytes() {
+      java.lang.Object ref = blockHash_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        userID_ = b;
+        blockHash_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string UserID = 1;</code>
+     * <code>string BlockHash = 1;</code>
      */
-    public Builder setUserID(
+    public Builder setBlockHash(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      userID_ = value;
+      blockHash_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string UserID = 1;</code>
+     * <code>string BlockHash = 1;</code>
      */
-    public Builder clearUserID() {
+    public Builder clearBlockHash() {
       
-      userID_ = getDefaultInstance().getUserID();
+      blockHash_ = getDefaultInstance().getBlockHash();
       onChanged();
       return this;
     }
     /**
-     * <code>string UserID = 1;</code>
+     * <code>string BlockHash = 1;</code>
      */
-    public Builder setUserIDBytes(
+    public Builder setBlockHashBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      userID_ = value;
-      onChanged();
-      return this;
-    }
-
-    private int value_ ;
-    /**
-     * <code>int32 Value = 2;</code>
-     */
-    public int getValue() {
-      return value_;
-    }
-    /**
-     * <code>int32 Value = 2;</code>
-     */
-    public Builder setValue(int value) {
-      
-      value_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 Value = 2;</code>
-     */
-    public Builder clearValue() {
-      
-      value_ = 0;
+      blockHash_ = value;
       onChanged();
       return this;
     }
@@ -512,39 +454,39 @@ public  final class Request extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:blockdb.Request)
+    // @@protoc_insertion_point(builder_scope:blockdb.GetBlockRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:blockdb.Request)
-  private static final iiis.systems.os.blockdb.Request DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:blockdb.GetBlockRequest)
+  private static final iiis.systems.os.blockdb.GetBlockRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new iiis.systems.os.blockdb.Request();
+    DEFAULT_INSTANCE = new iiis.systems.os.blockdb.GetBlockRequest();
   }
 
-  public static iiis.systems.os.blockdb.Request getDefaultInstance() {
+  public static iiis.systems.os.blockdb.GetBlockRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Request>
-      PARSER = new com.google.protobuf.AbstractParser<Request>() {
-    public Request parsePartialFrom(
+  private static final com.google.protobuf.Parser<GetBlockRequest>
+      PARSER = new com.google.protobuf.AbstractParser<GetBlockRequest>() {
+    public GetBlockRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Request(input, extensionRegistry);
+        return new GetBlockRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<Request> parser() {
+  public static com.google.protobuf.Parser<GetBlockRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<Request> getParserForType() {
+  public com.google.protobuf.Parser<GetBlockRequest> getParserForType() {
     return PARSER;
   }
 
-  public iiis.systems.os.blockdb.Request getDefaultInstanceForType() {
+  public iiis.systems.os.blockdb.GetBlockRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

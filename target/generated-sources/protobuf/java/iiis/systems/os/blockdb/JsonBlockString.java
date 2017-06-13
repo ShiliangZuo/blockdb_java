@@ -4,20 +4,18 @@
 package iiis.systems.os.blockdb;
 
 /**
- * Protobuf type {@code blockdb.TransferRequest}
+ * Protobuf type {@code blockdb.JsonBlockString}
  */
-public  final class TransferRequest extends
+public  final class JsonBlockString extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:blockdb.TransferRequest)
-    TransferRequestOrBuilder {
-  // Use TransferRequest.newBuilder() to construct.
-  private TransferRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:blockdb.JsonBlockString)
+    JsonBlockStringOrBuilder {
+  // Use JsonBlockString.newBuilder() to construct.
+  private JsonBlockString(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private TransferRequest() {
-    fromID_ = "";
-    toID_ = "";
-    value_ = 0;
+  private JsonBlockString() {
+    json_ = "";
   }
 
   @java.lang.Override
@@ -25,7 +23,7 @@ public  final class TransferRequest extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private TransferRequest(
+  private JsonBlockString(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -48,18 +46,7 @@ public  final class TransferRequest extends
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            fromID_ = s;
-            break;
-          }
-          case 18: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            toID_ = s;
-            break;
-          }
-          case 24: {
-
-            value_ = input.readInt32();
+            json_ = s;
             break;
           }
         }
@@ -75,91 +62,48 @@ public  final class TransferRequest extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_TransferRequest_descriptor;
+    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_JsonBlockString_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_TransferRequest_fieldAccessorTable
+    return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_JsonBlockString_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            iiis.systems.os.blockdb.TransferRequest.class, iiis.systems.os.blockdb.TransferRequest.Builder.class);
+            iiis.systems.os.blockdb.JsonBlockString.class, iiis.systems.os.blockdb.JsonBlockString.Builder.class);
   }
 
-  public static final int FROMID_FIELD_NUMBER = 1;
-  private volatile java.lang.Object fromID_;
+  public static final int JSON_FIELD_NUMBER = 1;
+  private volatile java.lang.Object json_;
   /**
-   * <code>string FromID = 1;</code>
+   * <code>string Json = 1;</code>
    */
-  public java.lang.String getFromID() {
-    java.lang.Object ref = fromID_;
+  public java.lang.String getJson() {
+    java.lang.Object ref = json_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      fromID_ = s;
+      json_ = s;
       return s;
     }
   }
   /**
-   * <code>string FromID = 1;</code>
+   * <code>string Json = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getFromIDBytes() {
-    java.lang.Object ref = fromID_;
+      getJsonBytes() {
+    java.lang.Object ref = json_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      fromID_ = b;
+      json_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
-  }
-
-  public static final int TOID_FIELD_NUMBER = 2;
-  private volatile java.lang.Object toID_;
-  /**
-   * <code>string ToID = 2;</code>
-   */
-  public java.lang.String getToID() {
-    java.lang.Object ref = toID_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      toID_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string ToID = 2;</code>
-   */
-  public com.google.protobuf.ByteString
-      getToIDBytes() {
-    java.lang.Object ref = toID_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      toID_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int VALUE_FIELD_NUMBER = 3;
-  private int value_;
-  /**
-   * <code>int32 Value = 3;</code>
-   */
-  public int getValue() {
-    return value_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -174,14 +118,8 @@ public  final class TransferRequest extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getFromIDBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fromID_);
-    }
-    if (!getToIDBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, toID_);
-    }
-    if (value_ != 0) {
-      output.writeInt32(3, value_);
+    if (!getJsonBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, json_);
     }
   }
 
@@ -190,15 +128,8 @@ public  final class TransferRequest extends
     if (size != -1) return size;
 
     size = 0;
-    if (!getFromIDBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fromID_);
-    }
-    if (!getToIDBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, toID_);
-    }
-    if (value_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, value_);
+    if (!getJsonBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, json_);
     }
     memoizedSize = size;
     return size;
@@ -210,18 +141,14 @@ public  final class TransferRequest extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof iiis.systems.os.blockdb.TransferRequest)) {
+    if (!(obj instanceof iiis.systems.os.blockdb.JsonBlockString)) {
       return super.equals(obj);
     }
-    iiis.systems.os.blockdb.TransferRequest other = (iiis.systems.os.blockdb.TransferRequest) obj;
+    iiis.systems.os.blockdb.JsonBlockString other = (iiis.systems.os.blockdb.JsonBlockString) obj;
 
     boolean result = true;
-    result = result && getFromID()
-        .equals(other.getFromID());
-    result = result && getToID()
-        .equals(other.getToID());
-    result = result && (getValue()
-        == other.getValue());
+    result = result && getJson()
+        .equals(other.getJson());
     return result;
   }
 
@@ -232,69 +159,65 @@ public  final class TransferRequest extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + FROMID_FIELD_NUMBER;
-    hash = (53 * hash) + getFromID().hashCode();
-    hash = (37 * hash) + TOID_FIELD_NUMBER;
-    hash = (53 * hash) + getToID().hashCode();
-    hash = (37 * hash) + VALUE_FIELD_NUMBER;
-    hash = (53 * hash) + getValue();
+    hash = (37 * hash) + JSON_FIELD_NUMBER;
+    hash = (53 * hash) + getJson().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(byte[] data)
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(java.io.InputStream input)
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseDelimitedFrom(java.io.InputStream input)
+  public static iiis.systems.os.blockdb.JsonBlockString parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseDelimitedFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static iiis.systems.os.blockdb.TransferRequest parseFrom(
+  public static iiis.systems.os.blockdb.JsonBlockString parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -306,7 +229,7 @@ public  final class TransferRequest extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(iiis.systems.os.blockdb.TransferRequest prototype) {
+  public static Builder newBuilder(iiis.systems.os.blockdb.JsonBlockString prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -321,25 +244,25 @@ public  final class TransferRequest extends
     return builder;
   }
   /**
-   * Protobuf type {@code blockdb.TransferRequest}
+   * Protobuf type {@code blockdb.JsonBlockString}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:blockdb.TransferRequest)
-      iiis.systems.os.blockdb.TransferRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:blockdb.JsonBlockString)
+      iiis.systems.os.blockdb.JsonBlockStringOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_TransferRequest_descriptor;
+      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_JsonBlockString_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_TransferRequest_fieldAccessorTable
+      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_JsonBlockString_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              iiis.systems.os.blockdb.TransferRequest.class, iiis.systems.os.blockdb.TransferRequest.Builder.class);
+              iiis.systems.os.blockdb.JsonBlockString.class, iiis.systems.os.blockdb.JsonBlockString.Builder.class);
     }
 
-    // Construct using iiis.systems.os.blockdb.TransferRequest.newBuilder()
+    // Construct using iiis.systems.os.blockdb.JsonBlockString.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -356,37 +279,31 @@ public  final class TransferRequest extends
     }
     public Builder clear() {
       super.clear();
-      fromID_ = "";
-
-      toID_ = "";
-
-      value_ = 0;
+      json_ = "";
 
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_TransferRequest_descriptor;
+      return iiis.systems.os.blockdb.DBProto.internal_static_blockdb_JsonBlockString_descriptor;
     }
 
-    public iiis.systems.os.blockdb.TransferRequest getDefaultInstanceForType() {
-      return iiis.systems.os.blockdb.TransferRequest.getDefaultInstance();
+    public iiis.systems.os.blockdb.JsonBlockString getDefaultInstanceForType() {
+      return iiis.systems.os.blockdb.JsonBlockString.getDefaultInstance();
     }
 
-    public iiis.systems.os.blockdb.TransferRequest build() {
-      iiis.systems.os.blockdb.TransferRequest result = buildPartial();
+    public iiis.systems.os.blockdb.JsonBlockString build() {
+      iiis.systems.os.blockdb.JsonBlockString result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public iiis.systems.os.blockdb.TransferRequest buildPartial() {
-      iiis.systems.os.blockdb.TransferRequest result = new iiis.systems.os.blockdb.TransferRequest(this);
-      result.fromID_ = fromID_;
-      result.toID_ = toID_;
-      result.value_ = value_;
+    public iiis.systems.os.blockdb.JsonBlockString buildPartial() {
+      iiis.systems.os.blockdb.JsonBlockString result = new iiis.systems.os.blockdb.JsonBlockString(this);
+      result.json_ = json_;
       onBuilt();
       return result;
     }
@@ -418,26 +335,19 @@ public  final class TransferRequest extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof iiis.systems.os.blockdb.TransferRequest) {
-        return mergeFrom((iiis.systems.os.blockdb.TransferRequest)other);
+      if (other instanceof iiis.systems.os.blockdb.JsonBlockString) {
+        return mergeFrom((iiis.systems.os.blockdb.JsonBlockString)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(iiis.systems.os.blockdb.TransferRequest other) {
-      if (other == iiis.systems.os.blockdb.TransferRequest.getDefaultInstance()) return this;
-      if (!other.getFromID().isEmpty()) {
-        fromID_ = other.fromID_;
+    public Builder mergeFrom(iiis.systems.os.blockdb.JsonBlockString other) {
+      if (other == iiis.systems.os.blockdb.JsonBlockString.getDefaultInstance()) return this;
+      if (!other.getJson().isEmpty()) {
+        json_ = other.json_;
         onChanged();
-      }
-      if (!other.getToID().isEmpty()) {
-        toID_ = other.toID_;
-        onChanged();
-      }
-      if (other.getValue() != 0) {
-        setValue(other.getValue());
       }
       onChanged();
       return this;
@@ -451,11 +361,11 @@ public  final class TransferRequest extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      iiis.systems.os.blockdb.TransferRequest parsedMessage = null;
+      iiis.systems.os.blockdb.JsonBlockString parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (iiis.systems.os.blockdb.TransferRequest) e.getUnfinishedMessage();
+        parsedMessage = (iiis.systems.os.blockdb.JsonBlockString) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -465,166 +375,71 @@ public  final class TransferRequest extends
       return this;
     }
 
-    private java.lang.Object fromID_ = "";
+    private java.lang.Object json_ = "";
     /**
-     * <code>string FromID = 1;</code>
+     * <code>string Json = 1;</code>
      */
-    public java.lang.String getFromID() {
-      java.lang.Object ref = fromID_;
+    public java.lang.String getJson() {
+      java.lang.Object ref = json_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        fromID_ = s;
+        json_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string FromID = 1;</code>
+     * <code>string Json = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getFromIDBytes() {
-      java.lang.Object ref = fromID_;
+        getJsonBytes() {
+      java.lang.Object ref = json_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        fromID_ = b;
+        json_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string FromID = 1;</code>
+     * <code>string Json = 1;</code>
      */
-    public Builder setFromID(
+    public Builder setJson(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      fromID_ = value;
+      json_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string FromID = 1;</code>
+     * <code>string Json = 1;</code>
      */
-    public Builder clearFromID() {
+    public Builder clearJson() {
       
-      fromID_ = getDefaultInstance().getFromID();
+      json_ = getDefaultInstance().getJson();
       onChanged();
       return this;
     }
     /**
-     * <code>string FromID = 1;</code>
+     * <code>string Json = 1;</code>
      */
-    public Builder setFromIDBytes(
+    public Builder setJsonBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      fromID_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object toID_ = "";
-    /**
-     * <code>string ToID = 2;</code>
-     */
-    public java.lang.String getToID() {
-      java.lang.Object ref = toID_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        toID_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string ToID = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getToIDBytes() {
-      java.lang.Object ref = toID_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        toID_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string ToID = 2;</code>
-     */
-    public Builder setToID(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      toID_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string ToID = 2;</code>
-     */
-    public Builder clearToID() {
-      
-      toID_ = getDefaultInstance().getToID();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string ToID = 2;</code>
-     */
-    public Builder setToIDBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      toID_ = value;
-      onChanged();
-      return this;
-    }
-
-    private int value_ ;
-    /**
-     * <code>int32 Value = 3;</code>
-     */
-    public int getValue() {
-      return value_;
-    }
-    /**
-     * <code>int32 Value = 3;</code>
-     */
-    public Builder setValue(int value) {
-      
-      value_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 Value = 3;</code>
-     */
-    public Builder clearValue() {
-      
-      value_ = 0;
+      json_ = value;
       onChanged();
       return this;
     }
@@ -639,39 +454,39 @@ public  final class TransferRequest extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:blockdb.TransferRequest)
+    // @@protoc_insertion_point(builder_scope:blockdb.JsonBlockString)
   }
 
-  // @@protoc_insertion_point(class_scope:blockdb.TransferRequest)
-  private static final iiis.systems.os.blockdb.TransferRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:blockdb.JsonBlockString)
+  private static final iiis.systems.os.blockdb.JsonBlockString DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new iiis.systems.os.blockdb.TransferRequest();
+    DEFAULT_INSTANCE = new iiis.systems.os.blockdb.JsonBlockString();
   }
 
-  public static iiis.systems.os.blockdb.TransferRequest getDefaultInstance() {
+  public static iiis.systems.os.blockdb.JsonBlockString getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<TransferRequest>
-      PARSER = new com.google.protobuf.AbstractParser<TransferRequest>() {
-    public TransferRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<JsonBlockString>
+      PARSER = new com.google.protobuf.AbstractParser<JsonBlockString>() {
+    public JsonBlockString parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TransferRequest(input, extensionRegistry);
+        return new JsonBlockString(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<TransferRequest> parser() {
+  public static com.google.protobuf.Parser<JsonBlockString> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<TransferRequest> getParserForType() {
+  public com.google.protobuf.Parser<JsonBlockString> getParserForType() {
     return PARSER;
   }
 
-  public iiis.systems.os.blockdb.TransferRequest getDefaultInstanceForType() {
+  public iiis.systems.os.blockdb.JsonBlockString getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

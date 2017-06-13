@@ -47,11 +47,21 @@ public interface BlockOrBuilder extends
       int index);
 
   /**
-   * <code>string Nonce = 4;</code>
+   * <code>string MinerID = 4;</code>
+   */
+  java.lang.String getMinerID();
+  /**
+   * <code>string MinerID = 4;</code>
+   */
+  com.google.protobuf.ByteString
+      getMinerIDBytes();
+
+  /**
+   * <code>string Nonce = 5;</code>
    */
   java.lang.String getNonce();
   /**
-   * <code>string Nonce = 4;</code>
+   * <code>string Nonce = 5;</code>
    */
   com.google.protobuf.ByteString
       getNonceBytes();
