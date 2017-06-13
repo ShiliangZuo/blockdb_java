@@ -1,6 +1,8 @@
 package iiis.systems.os.blockdb;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.regex.*;
 import java.io.*;
@@ -10,6 +12,7 @@ import org.json.simple.*;
 import org.json.JSONObject;
 
 public class DatabaseEngine {
+
     private static DatabaseEngine instance = null;
 
     public static DatabaseEngine getInstance() {
@@ -24,19 +27,27 @@ public class DatabaseEngine {
     private long logLength = 0;
     private String dataDir;
 
-    private long blockId = 1;
+    private HashSet<String> records = new HashSet<>();
+    private LinkedList<Transaction> transactionList = new LinkedList<>();
+
+    private int blockId = 0;
     final int N = 2/*50*/;
 
     final int userIdLength = 8;
     final String template = "[a-z0-9|-]{" + userIdLength + "}";
     Pattern pattern = Pattern.compile(template, Pattern.CASE_INSENSITIVE);
 
-    Block.Builder blockBuilder = Block.newBuilder();
+    Block.Builder blockBuilder = Block.newBuilder().setBlockID(blockId);
     String serverLogInfoPath;
     org.json.simple.JSONObject serverInfoJson;
     private String tmpJsonPath;
 
     private Semaphore semaphore = new Semaphore(1);
+
+    //private String nonce, recentHash;
+    private Boolean mined = false;
+    private TreeNode<Block> recentNode = new TreeNode(blockBuilder.build());
+    //private HashMap<String, TreeNode<Block>> blockHashMap = new HashMap<>();
 
     DatabaseEngine(String dataDir) {
         this.dataDir = dataDir;
@@ -89,7 +100,6 @@ public class DatabaseEngine {
 
             /*String name = (String) jsonObject.get("name");
             System.out.println(name);
-
             long age = (Long) jsonObject.get("age");
             System.out.println(age);*/
 
@@ -118,9 +128,6 @@ public class DatabaseEngine {
             } catch (IOException exp) {
                 exp.printStackTrace();
             }
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -154,67 +161,18 @@ public class DatabaseEngine {
         return 0;
     }
 
-    /*public boolean put(String userId, int value) {
-        try {
-            semaphore.acquire();
-            if (pattern.matcher(userId).matches() && value >= 0) {
-                writeTransactionLog(Transaction.newBuilder().setType(Transaction.Types.PUT).setUserID(userId).setValue(value).build());
-                balances.put(userId, value);
-                semaphore.release();
-                return true;
-            }
-            semaphore.release();
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean deposit(String userId, int value) {
-        try {
-            semaphore.acquire();
-            if (pattern.matcher(userId).matches() && value >= 0) {
-                writeTransactionLog(Transaction.newBuilder().setType(Transaction.Types.DEPOSIT).setUserID(userId).setValue(value).build());
-                int balance = getOrZero(userId);
-                balances.put(userId, balance + value);
-                semaphore.release();
-                return true;
-            }
-            semaphore.release();
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean withdraw(String userId, int value) {
-        try {
-            semaphore.acquire();
-            if (pattern.matcher(userId).matches() && value >= 0) {
-                int balance = getOrZero(userId);
-                if (value <= balance) {
-                    writeTransactionLog(Transaction.newBuilder().setType(Transaction.Types.WITHDRAW).setUserID(userId).setValue(value).build());
-                    balances.put(userId, balance - value);
-                    semaphore.release();
-                    return true;
-                }
-            }
-            semaphore.release();
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    */
-
-    public boolean transfer(Transaction.Types type, String fromId, String toId, int value, int fee) {
+    public boolean transfer(Transaction request) {
+        Transaction.Types type = request.getType();
+        String fromId = request.getFromID();
+        String toId = request.getToID();
+        int value = request.getValue();
+        int fee = request.getMiningFee();
+        String UUID = request.getUUID();
         try {
             semaphore.acquire();
             if (type == Transaction.Types.TRANSFER && pattern.matcher(fromId).matches()
-                    && pattern.matcher(toId).matches() && !fromId.equals(toId) && value >= 0) {
+                    && pattern.matcher(toId).matches() && !fromId.equals(toId) && value >= 0
+                    && records.contains(request.getUUID()) == false) {
                 int fromBalance = getOrZero(fromId);
                 if (value <= fromBalance && value >= fee) {
                     writeTransactionLog(Transaction.newBuilder().
@@ -223,6 +181,7 @@ public class DatabaseEngine {
                     int toBalance = getOrZero(toId);
                     balances.put(fromId, fromBalance - value);
                     balances.put(toId, toBalance + value - fee);
+                    records.add(UUID);
                     semaphore.release();
                     return true;
                 }
@@ -233,6 +192,10 @@ public class DatabaseEngine {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void receive(Transaction request) {
+        transfer(request);
     }
 
     public int getLogLength() {
@@ -365,6 +328,18 @@ public class DatabaseEngine {
         catch (IOException e)
         {
             System.out.println(e);
+        }
+    }
+
+    private void produceBlock() {
+        if(mined && !transactionList.isEmpty())
+        {
+            blockBuilder.setBlockID(++blockId).setPrevHash(Hash.getHashString(recentNode.data.getNonce())/*recentHash*/).clearTransactions().setNonce(nonce);
+            Transaction transaction;
+            while((transaction = transactionList.poll())!=null)
+                blockBuilder.addTransactions(transaction);
+            recentNode = recentNode.addChild(blockBuilder.build());
+            mined = false;
         }
     }
 }

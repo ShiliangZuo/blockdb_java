@@ -18,6 +18,7 @@ public  final class Block extends
     blockID_ = 0;
     prevHash_ = "";
     transactions_ = java.util.Collections.emptyList();
+    minerID_ = "";
     nonce_ = "";
   }
 
@@ -67,6 +68,12 @@ public  final class Block extends
             break;
           }
           case 34: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            minerID_ = s;
+            break;
+          }
+          case 42: {
             java.lang.String s = input.readStringRequireUtf8();
 
             nonce_ = s;
@@ -177,10 +184,44 @@ public  final class Block extends
     return transactions_.get(index);
   }
 
-  public static final int NONCE_FIELD_NUMBER = 4;
+  public static final int MINERID_FIELD_NUMBER = 4;
+  private volatile java.lang.Object minerID_;
+  /**
+   * <code>string MinerID = 4;</code>
+   */
+  public java.lang.String getMinerID() {
+    java.lang.Object ref = minerID_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      minerID_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string MinerID = 4;</code>
+   */
+  public com.google.protobuf.ByteString
+      getMinerIDBytes() {
+    java.lang.Object ref = minerID_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      minerID_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int NONCE_FIELD_NUMBER = 5;
   private volatile java.lang.Object nonce_;
   /**
-   * <code>string Nonce = 4;</code>
+   * <code>string Nonce = 5;</code>
    */
   public java.lang.String getNonce() {
     java.lang.Object ref = nonce_;
@@ -195,7 +236,7 @@ public  final class Block extends
     }
   }
   /**
-   * <code>string Nonce = 4;</code>
+   * <code>string Nonce = 5;</code>
    */
   public com.google.protobuf.ByteString
       getNonceBytes() {
@@ -232,8 +273,11 @@ public  final class Block extends
     for (int i = 0; i < transactions_.size(); i++) {
       output.writeMessage(3, transactions_.get(i));
     }
+    if (!getMinerIDBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, minerID_);
+    }
     if (!getNonceBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, nonce_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, nonce_);
     }
   }
 
@@ -253,8 +297,11 @@ public  final class Block extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(3, transactions_.get(i));
     }
+    if (!getMinerIDBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, minerID_);
+    }
     if (!getNonceBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, nonce_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, nonce_);
     }
     memoizedSize = size;
     return size;
@@ -278,6 +325,8 @@ public  final class Block extends
         .equals(other.getPrevHash());
     result = result && getTransactionsList()
         .equals(other.getTransactionsList());
+    result = result && getMinerID()
+        .equals(other.getMinerID());
     result = result && getNonce()
         .equals(other.getNonce());
     return result;
@@ -298,6 +347,8 @@ public  final class Block extends
       hash = (37 * hash) + TRANSACTIONS_FIELD_NUMBER;
       hash = (53 * hash) + getTransactionsList().hashCode();
     }
+    hash = (37 * hash) + MINERID_FIELD_NUMBER;
+    hash = (53 * hash) + getMinerID().hashCode();
     hash = (37 * hash) + NONCE_FIELD_NUMBER;
     hash = (53 * hash) + getNonce().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -429,6 +480,8 @@ public  final class Block extends
       } else {
         transactionsBuilder_.clear();
       }
+      minerID_ = "";
+
       nonce_ = "";
 
       return this;
@@ -466,6 +519,7 @@ public  final class Block extends
       } else {
         result.transactions_ = transactionsBuilder_.build();
       }
+      result.minerID_ = minerID_;
       result.nonce_ = nonce_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
@@ -541,6 +595,10 @@ public  final class Block extends
             transactionsBuilder_.addAllMessages(other.transactions_);
           }
         }
+      }
+      if (!other.getMinerID().isEmpty()) {
+        minerID_ = other.minerID_;
+        onChanged();
       }
       if (!other.getNonce().isEmpty()) {
         nonce_ = other.nonce_;
@@ -908,9 +966,78 @@ public  final class Block extends
       return transactionsBuilder_;
     }
 
+    private java.lang.Object minerID_ = "";
+    /**
+     * <code>string MinerID = 4;</code>
+     */
+    public java.lang.String getMinerID() {
+      java.lang.Object ref = minerID_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        minerID_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string MinerID = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMinerIDBytes() {
+      java.lang.Object ref = minerID_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        minerID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string MinerID = 4;</code>
+     */
+    public Builder setMinerID(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      minerID_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string MinerID = 4;</code>
+     */
+    public Builder clearMinerID() {
+      
+      minerID_ = getDefaultInstance().getMinerID();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string MinerID = 4;</code>
+     */
+    public Builder setMinerIDBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      minerID_ = value;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object nonce_ = "";
     /**
-     * <code>string Nonce = 4;</code>
+     * <code>string Nonce = 5;</code>
      */
     public java.lang.String getNonce() {
       java.lang.Object ref = nonce_;
@@ -925,7 +1052,7 @@ public  final class Block extends
       }
     }
     /**
-     * <code>string Nonce = 4;</code>
+     * <code>string Nonce = 5;</code>
      */
     public com.google.protobuf.ByteString
         getNonceBytes() {
@@ -941,7 +1068,7 @@ public  final class Block extends
       }
     }
     /**
-     * <code>string Nonce = 4;</code>
+     * <code>string Nonce = 5;</code>
      */
     public Builder setNonce(
         java.lang.String value) {
@@ -954,7 +1081,7 @@ public  final class Block extends
       return this;
     }
     /**
-     * <code>string Nonce = 4;</code>
+     * <code>string Nonce = 5;</code>
      */
     public Builder clearNonce() {
       
@@ -963,7 +1090,7 @@ public  final class Block extends
       return this;
     }
     /**
-     * <code>string Nonce = 4;</code>
+     * <code>string Nonce = 5;</code>
      */
     public Builder setNonceBytes(
         com.google.protobuf.ByteString value) {

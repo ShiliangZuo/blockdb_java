@@ -16,10 +16,11 @@ public  final class Transaction extends
   }
   private Transaction() {
     type_ = 0;
-    userID_ = "";
     fromID_ = "";
     toID_ = "";
     value_ = 0;
+    miningFee_ = 0;
+    uUID_ = "";
   }
 
   @java.lang.Override
@@ -53,12 +54,6 @@ public  final class Transaction extends
             type_ = rawValue;
             break;
           }
-          case 18: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            userID_ = s;
-            break;
-          }
           case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
@@ -74,6 +69,17 @@ public  final class Transaction extends
           case 40: {
 
             value_ = input.readInt32();
+            break;
+          }
+          case 48: {
+
+            miningFee_ = input.readInt32();
+            break;
+          }
+          case 58: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            uUID_ = s;
             break;
           }
         }
@@ -109,22 +115,6 @@ public  final class Transaction extends
      */
     UNKNOWN(0),
     /**
-     * <code>GET = 1;</code>
-     */
-    GET(1),
-    /**
-     * <code>PUT = 2;</code>
-     */
-    PUT(2),
-    /**
-     * <code>DEPOSIT = 3;</code>
-     */
-    DEPOSIT(3),
-    /**
-     * <code>WITHDRAW = 4;</code>
-     */
-    WITHDRAW(4),
-    /**
      * <code>TRANSFER = 5;</code>
      */
     TRANSFER(5),
@@ -135,22 +125,6 @@ public  final class Transaction extends
      * <code>UNKNOWN = 0;</code>
      */
     public static final int UNKNOWN_VALUE = 0;
-    /**
-     * <code>GET = 1;</code>
-     */
-    public static final int GET_VALUE = 1;
-    /**
-     * <code>PUT = 2;</code>
-     */
-    public static final int PUT_VALUE = 2;
-    /**
-     * <code>DEPOSIT = 3;</code>
-     */
-    public static final int DEPOSIT_VALUE = 3;
-    /**
-     * <code>WITHDRAW = 4;</code>
-     */
-    public static final int WITHDRAW_VALUE = 4;
     /**
      * <code>TRANSFER = 5;</code>
      */
@@ -176,10 +150,6 @@ public  final class Transaction extends
     public static Types forNumber(int value) {
       switch (value) {
         case 0: return UNKNOWN;
-        case 1: return GET;
-        case 2: return PUT;
-        case 3: return DEPOSIT;
-        case 4: return WITHDRAW;
         case 5: return TRANSFER;
         default: return null;
       }
@@ -247,48 +217,6 @@ public  final class Transaction extends
   public iiis.systems.os.blockdb.Transaction.Types getType() {
     iiis.systems.os.blockdb.Transaction.Types result = iiis.systems.os.blockdb.Transaction.Types.valueOf(type_);
     return result == null ? iiis.systems.os.blockdb.Transaction.Types.UNRECOGNIZED : result;
-  }
-
-  public static final int USERID_FIELD_NUMBER = 2;
-  private volatile java.lang.Object userID_;
-  /**
-   * <pre>
-   * Optional
-   * </pre>
-   *
-   * <code>string UserID = 2;</code>
-   */
-  public java.lang.String getUserID() {
-    java.lang.Object ref = userID_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      userID_ = s;
-      return s;
-    }
-  }
-  /**
-   * <pre>
-   * Optional
-   * </pre>
-   *
-   * <code>string UserID = 2;</code>
-   */
-  public com.google.protobuf.ByteString
-      getUserIDBytes() {
-    java.lang.Object ref = userID_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      userID_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
   }
 
   public static final int FROMID_FIELD_NUMBER = 3;
@@ -384,6 +312,49 @@ public  final class Transaction extends
     return value_;
   }
 
+  public static final int MININGFEE_FIELD_NUMBER = 6;
+  private int miningFee_;
+  /**
+   * <code>int32 MiningFee = 6;</code>
+   */
+  public int getMiningFee() {
+    return miningFee_;
+  }
+
+  public static final int UUID_FIELD_NUMBER = 7;
+  private volatile java.lang.Object uUID_;
+  /**
+   * <code>string UUID = 7;</code>
+   */
+  public java.lang.String getUUID() {
+    java.lang.Object ref = uUID_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      uUID_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string UUID = 7;</code>
+   */
+  public com.google.protobuf.ByteString
+      getUUIDBytes() {
+    java.lang.Object ref = uUID_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      uUID_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -399,9 +370,6 @@ public  final class Transaction extends
     if (type_ != iiis.systems.os.blockdb.Transaction.Types.UNKNOWN.getNumber()) {
       output.writeEnum(1, type_);
     }
-    if (!getUserIDBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, userID_);
-    }
     if (!getFromIDBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, fromID_);
     }
@@ -410,6 +378,12 @@ public  final class Transaction extends
     }
     if (value_ != 0) {
       output.writeInt32(5, value_);
+    }
+    if (miningFee_ != 0) {
+      output.writeInt32(6, miningFee_);
+    }
+    if (!getUUIDBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 7, uUID_);
     }
   }
 
@@ -422,9 +396,6 @@ public  final class Transaction extends
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(1, type_);
     }
-    if (!getUserIDBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, userID_);
-    }
     if (!getFromIDBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, fromID_);
     }
@@ -434,6 +405,13 @@ public  final class Transaction extends
     if (value_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(5, value_);
+    }
+    if (miningFee_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(6, miningFee_);
+    }
+    if (!getUUIDBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, uUID_);
     }
     memoizedSize = size;
     return size;
@@ -452,14 +430,16 @@ public  final class Transaction extends
 
     boolean result = true;
     result = result && type_ == other.type_;
-    result = result && getUserID()
-        .equals(other.getUserID());
     result = result && getFromID()
         .equals(other.getFromID());
     result = result && getToID()
         .equals(other.getToID());
     result = result && (getValue()
         == other.getValue());
+    result = result && (getMiningFee()
+        == other.getMiningFee());
+    result = result && getUUID()
+        .equals(other.getUUID());
     return result;
   }
 
@@ -472,14 +452,16 @@ public  final class Transaction extends
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + TYPE_FIELD_NUMBER;
     hash = (53 * hash) + type_;
-    hash = (37 * hash) + USERID_FIELD_NUMBER;
-    hash = (53 * hash) + getUserID().hashCode();
     hash = (37 * hash) + FROMID_FIELD_NUMBER;
     hash = (53 * hash) + getFromID().hashCode();
     hash = (37 * hash) + TOID_FIELD_NUMBER;
     hash = (53 * hash) + getToID().hashCode();
     hash = (37 * hash) + VALUE_FIELD_NUMBER;
     hash = (53 * hash) + getValue();
+    hash = (37 * hash) + MININGFEE_FIELD_NUMBER;
+    hash = (53 * hash) + getMiningFee();
+    hash = (37 * hash) + UUID_FIELD_NUMBER;
+    hash = (53 * hash) + getUUID().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -600,13 +582,15 @@ public  final class Transaction extends
       super.clear();
       type_ = 0;
 
-      userID_ = "";
-
       fromID_ = "";
 
       toID_ = "";
 
       value_ = 0;
+
+      miningFee_ = 0;
+
+      uUID_ = "";
 
       return this;
     }
@@ -631,10 +615,11 @@ public  final class Transaction extends
     public iiis.systems.os.blockdb.Transaction buildPartial() {
       iiis.systems.os.blockdb.Transaction result = new iiis.systems.os.blockdb.Transaction(this);
       result.type_ = type_;
-      result.userID_ = userID_;
       result.fromID_ = fromID_;
       result.toID_ = toID_;
       result.value_ = value_;
+      result.miningFee_ = miningFee_;
+      result.uUID_ = uUID_;
       onBuilt();
       return result;
     }
@@ -679,10 +664,6 @@ public  final class Transaction extends
       if (other.type_ != 0) {
         setTypeValue(other.getTypeValue());
       }
-      if (!other.getUserID().isEmpty()) {
-        userID_ = other.userID_;
-        onChanged();
-      }
       if (!other.getFromID().isEmpty()) {
         fromID_ = other.fromID_;
         onChanged();
@@ -693,6 +674,13 @@ public  final class Transaction extends
       }
       if (other.getValue() != 0) {
         setValue(other.getValue());
+      }
+      if (other.getMiningFee() != 0) {
+        setMiningFee(other.getMiningFee());
+      }
+      if (!other.getUUID().isEmpty()) {
+        uUID_ = other.uUID_;
+        onChanged();
       }
       onChanged();
       return this;
@@ -760,95 +748,6 @@ public  final class Transaction extends
     public Builder clearType() {
       
       type_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object userID_ = "";
-    /**
-     * <pre>
-     * Optional
-     * </pre>
-     *
-     * <code>string UserID = 2;</code>
-     */
-    public java.lang.String getUserID() {
-      java.lang.Object ref = userID_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        userID_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <pre>
-     * Optional
-     * </pre>
-     *
-     * <code>string UserID = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getUserIDBytes() {
-      java.lang.Object ref = userID_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        userID_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <pre>
-     * Optional
-     * </pre>
-     *
-     * <code>string UserID = 2;</code>
-     */
-    public Builder setUserID(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      userID_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Optional
-     * </pre>
-     *
-     * <code>string UserID = 2;</code>
-     */
-    public Builder clearUserID() {
-      
-      userID_ = getDefaultInstance().getUserID();
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Optional
-     * </pre>
-     *
-     * <code>string UserID = 2;</code>
-     */
-    public Builder setUserIDBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      userID_ = value;
       onChanged();
       return this;
     }
@@ -1053,6 +952,101 @@ public  final class Transaction extends
     public Builder clearValue() {
       
       value_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private int miningFee_ ;
+    /**
+     * <code>int32 MiningFee = 6;</code>
+     */
+    public int getMiningFee() {
+      return miningFee_;
+    }
+    /**
+     * <code>int32 MiningFee = 6;</code>
+     */
+    public Builder setMiningFee(int value) {
+      
+      miningFee_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 MiningFee = 6;</code>
+     */
+    public Builder clearMiningFee() {
+      
+      miningFee_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object uUID_ = "";
+    /**
+     * <code>string UUID = 7;</code>
+     */
+    public java.lang.String getUUID() {
+      java.lang.Object ref = uUID_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        uUID_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string UUID = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUUIDBytes() {
+      java.lang.Object ref = uUID_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        uUID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string UUID = 7;</code>
+     */
+    public Builder setUUID(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      uUID_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string UUID = 7;</code>
+     */
+    public Builder clearUUID() {
+      
+      uUID_ = getDefaultInstance().getUUID();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string UUID = 7;</code>
+     */
+    public Builder setUUIDBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      uUID_ = value;
       onChanged();
       return this;
     }

@@ -21,24 +21,6 @@ public interface TransactionOrBuilder extends
    * Optional
    * </pre>
    *
-   * <code>string UserID = 2;</code>
-   */
-  java.lang.String getUserID();
-  /**
-   * <pre>
-   * Optional
-   * </pre>
-   *
-   * <code>string UserID = 2;</code>
-   */
-  com.google.protobuf.ByteString
-      getUserIDBytes();
-
-  /**
-   * <pre>
-   * Optional
-   * </pre>
-   *
    * <code>string FromID = 3;</code>
    */
   java.lang.String getFromID();
@@ -74,4 +56,19 @@ public interface TransactionOrBuilder extends
    * <code>int32 Value = 5;</code>
    */
   int getValue();
+
+  /**
+   * <code>int32 MiningFee = 6;</code>
+   */
+  int getMiningFee();
+
+  /**
+   * <code>string UUID = 7;</code>
+   */
+  java.lang.String getUUID();
+  /**
+   * <code>string UUID = 7;</code>
+   */
+  com.google.protobuf.ByteString
+      getUUIDBytes();
 }
