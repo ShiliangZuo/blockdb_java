@@ -194,6 +194,10 @@ public class DatabaseEngine {
         transfer(request);
     }
 
+    public void receiveBlock(JsonBlockString block) {
+
+    }
+
     public int getLogLength() {
         return (int)logLength;
     }
@@ -327,9 +331,4 @@ public class DatabaseEngine {
         }
     }
 
-    private void produceBlock() {
-        while (true) {
-
-        }
-    }
 }
