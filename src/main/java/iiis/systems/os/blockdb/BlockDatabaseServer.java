@@ -1,5 +1,7 @@
 package iiis.systems.os.blockdb;
 
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.Server;
 import io.grpc.netty.NettyServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -11,6 +13,14 @@ import java.net.InetSocketAddress;
 
 public class BlockDatabaseServer {
     private Server server;
+
+    private static ManagedChannel channel;
+    private static BlockChainMinerGrpc.BlockChainMinerBlockingStub blockingStub;
+    private static BlockChainMinerGrpc.BlockChainMinerStub asyncStub;
+    private static JSONObject config;
+    private static int nServers;
+    private static String serverId;
+
 
     private void start(String address, int port) throws IOException {
         server = NettyServerBuilder.forAddress(new InetSocketAddress(address, port))
@@ -40,11 +50,15 @@ public class BlockDatabaseServer {
     }
 
     public static void main(String[] args) throws IOException, JSONException, InterruptedException {
-        JSONObject config = Util.readJsonFile("config.json");
-        config = (JSONObject)config.get("1");
-        String address = config.getString("ip");
-        int port = Integer.parseInt(config.getString("port"));
-        String dataDir = config.getString("dataDir");
+        config = Util.readJsonFile("config.json");
+        nServers = config.getInt("nservers");
+
+
+
+        JSONObject thisServer = (JSONObject)config.get(serverId);
+        String address = thisServer.getString("ip");
+        int port = Integer.parseInt(thisServer.getString("port"));
+        String dataDir = thisServer.getString("dataDir");
 
         DatabaseEngine.setup(dataDir);
 
@@ -55,6 +69,7 @@ public class BlockDatabaseServer {
     }
 
     static class BlockDatabaseImpl extends BlockChainMinerGrpc.BlockChainMinerImplBase {
+
         private final DatabaseEngine dbEngine = DatabaseEngine.getInstance();
 
         @Override
@@ -67,9 +82,50 @@ public class BlockDatabaseServer {
 
         @Override
         public void transfer(Transaction request, StreamObserver<BooleanResponse> responseObserver) {
-            boolean success = dbEngine.transfer(request.getType(), request.getFromID(),
-                    request.getToID(), request.getValue(), request.getMiningFee());
+            boolean success = dbEngine.transfer(request);
             BooleanResponse response = BooleanResponse.newBuilder().setSuccess(success).build();
+
+            for (int i = 1; i <= nServers; ++i) {
+                if (i == Integer.parseInt(serverId)) {
+                    continue;
+                }
+                JSONObject targetServer = (JSONObject) config.get(Integer.toString(i));
+
+                String address = targetServer.getString("ip");
+                int port = Integer.parseInt(targetServer.getString("port"));
+
+                channel = ManagedChannelBuilder.forAddress(address, port).usePlaintext(true).build();
+                blockingStub = BlockChainMinerGrpc.newBlockingStub(channel);
+                asyncStub = BlockChainMinerGrpc.newStub(channel);
+                StreamObserver<Null> observer = new StreamObserver<Null>() {
+                    @Override
+                    public void onNext(Null aNull) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                };
+                asyncStub.pushTransaction(request, observer);
+            }
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+
+        @Override
+        public void pushTransaction(Transaction request,
+                                    StreamObserver<Null> responseObserver) {
+            dbEngine.receive(request);
+            Null response = Null.newBuilder().build();
+
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
