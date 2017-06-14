@@ -362,12 +362,9 @@ public class DatabaseEngine {
     }
 
     private GetHeightResponse getHeight() {
-        try
-        {
-            return GetHeightResponse.newBuilder().setHeight(recentBlock.getBlockID()).setLeafHash(JsonFormat.printer().print(recentBlock)).build();
-        }
-        catch (Exception e)
-        {
+        try {
+            return GetHeightResponse.newBuilder().setHeight(recentBlock.getBlockID()).setLeafHash(Hash.getHashString(JsonFormat.printer().print(recentBlock))).build();
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -390,5 +387,14 @@ public class DatabaseEngine {
             block = blockHashMap.get(block.getPrevHash());
         }
         return builder.setResult(transactionList.contains(transaction)?VerifyResponse.Results.PENDING:VerifyResponse.Results.FAILED).build();
+    }
+
+    private String getBlock(String hash) {
+        try {
+            return blockHashMap.containsKey(hash)?JsonFormat.printer().print(blockHashMap.get(hash)):null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
