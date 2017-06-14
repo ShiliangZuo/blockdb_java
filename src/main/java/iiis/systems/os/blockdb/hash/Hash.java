@@ -32,7 +32,7 @@ public class Hash {
         return bytes;
     }
 
-    public static boolean checkHash(Hash string) {
-        return Hash.substring(0,5).equals("00000")
+    public static boolean checkHash(String string) {
+        return string.substring(0,5).equals("00000");
     }
 }
