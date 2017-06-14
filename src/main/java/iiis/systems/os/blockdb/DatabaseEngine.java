@@ -7,6 +7,7 @@ import java.util.concurrent.Semaphore;
 import java.util.regex.*;
 import java.io.*;
 import com.google.protobuf.util.JsonFormat;
+import iiis.systems.os.blockdb.hash.Hash;
 import org.json.simple.parser.*;
 import org.json.simple.*;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ public class DatabaseEngine {
     private HashMap<String, Integer> balances = new HashMap<>();
     private long logLength = 0;
     private String dataDir;
+    private String nonce;
 
     private HashSet<String> records = new HashSet<>();
     private LinkedList<Transaction> transactionList = new LinkedList<>();
@@ -85,7 +87,7 @@ public class DatabaseEngine {
             if (cleanStart == false) {
                 System.out.println("This is not a clean start...");
                 System.out.println("Trying to restore...!!");
-                this.blockId = (long) serverInfoJson.get("completedBlockNumber");
+                this.blockId = (int) serverInfoJson.get("completedBlockNumber");
                 ++this.blockId;
                 this.logLength = (long) serverInfoJson.get("transientLogEntries");
 
@@ -201,6 +203,7 @@ public class DatabaseEngine {
     }
   
     public void receiveBlock(JsonBlockString block) {
+        String jsonString = block.getJson();
 
     }
 
@@ -340,7 +343,8 @@ public class DatabaseEngine {
     private void produceBlock() {
         if(mined && !transactionList.isEmpty())
         {
-            blockBuilder.setBlockID(++blockId).setPrevHash(Hash.getHashString(recentNode.data.getNonce())/*recentHash*/).clearTransactions().setNonce(nonce);
+            blockBuilder.setBlockID(++blockId).
+                    setPrevHash(Hash.getHashString(recentNode.data.getNonce())).clearTransactions().setNonce(nonce);
             Transaction transaction;
             while((transaction = transactionList.poll())!=null)
                 blockBuilder.addTransactions(transaction);
