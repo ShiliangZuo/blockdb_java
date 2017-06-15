@@ -50,8 +50,8 @@ public class DatabaseEngine {
 
     //private String nonce, recentHash;
     private Boolean mined = false;
-    private TreeNode<Block> recentNode = new TreeNode(blockBuilder.build());
-    //private HashMap<String, TreeNode<Block>> blockHashMap = new HashMap<>();
+    private Block recentBlock = blockBuilder.build();
+    private HashMap<String, Block> blockHashMap = new HashMap<>();
 
     DatabaseEngine(String dataDir) {
         this.dataDir = dataDir;
@@ -176,7 +176,7 @@ public class DatabaseEngine {
             semaphore.acquire();
             if (type == Transaction.Types.TRANSFER && pattern.matcher(fromId).matches()
                     && pattern.matcher(toId).matches() && !fromId.equals(toId) && value >= 0
-                    && records.contains(request.getUUID()) == false) {
+                    && fee >= 0 && records.contains(request.getUUID()) == false) {
                 int fromBalance = getOrZero(fromId);
                 if (value <= fromBalance && value >= fee) {
                     writeTransactionLog(Transaction.newBuilder().
@@ -343,14 +343,58 @@ public class DatabaseEngine {
     private void produceBlock() {
         if(mined && !transactionList.isEmpty())
         {
-            blockBuilder.setBlockID(++blockId).
-                    setPrevHash(Hash.getHashString(recentNode.data.getNonce())).clearTransactions().setNonce(nonce);
-            Transaction transaction;
-            while((transaction = transactionList.poll())!=null)
-                blockBuilder.addTransactions(transaction);
-            recentNode = recentNode.addChild(blockBuilder.build());
-            mined = false;
+            try {
+                blockBuilder.setBlockID(++blockId).
+                        setPrevHash(Hash.getHashString(JsonFormat.printer().print(recentBlock))).clearTransactions().setNonce(nonce);
+                Transaction transaction;
+                int i = 0;
+                while((transaction = transactionList.poll())!=null && i < N)
+                {
+                    blockBuilder.addTransactions(transaction);
+                    i++;
+                }
+                blockHashMap.put(Hash.getHashString(JsonFormat.printer().print(recentBlock)),(recentBlock = blockBuilder.build()));
+                mined = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
+    private GetHeightResponse getHeight() {
+        try {
+            return GetHeightResponse.newBuilder().setHeight(recentBlock.getBlockID()).setLeafHash(Hash.getHashString(JsonFormat.printer().print(recentBlock))).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private VerifyResponse verify(Transaction transaction) {
+        VerifyResponse.Builder builder = VerifyResponse.newBuilder();
+        Block block = recentBlock;
+        while(block.getBlockID()>0)
+        {
+            if(block.getTransactionsList().contains(transaction))
+                try {
+                    return builder.setBlockHash(Hash.getHashString(JsonFormat.printer().print(block)))
+                            .setResult((recentBlock.getBlockID()-block.getBlockID()>=6)?VerifyResponse.Results.SUCCEEDED:VerifyResponse.Results.PENDING)
+                            .build();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            block = blockHashMap.get(block.getPrevHash());
+        }
+        return builder.setResult(transactionList.contains(transaction)?VerifyResponse.Results.PENDING:VerifyResponse.Results.FAILED).build();
+    }
+
+    private String getBlock(String hash) {
+        try {
+            return blockHashMap.containsKey(hash)?JsonFormat.printer().print(blockHashMap.get(hash)):null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
